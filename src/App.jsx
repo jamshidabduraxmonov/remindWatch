@@ -4,7 +4,8 @@ import {useState, useEffect} from 'react';
 
 export default function RemindWatch() {
 
-  const [time, setTime] = useState();
+  const [time, setTime] = useState([]);
+  const [minute, setMinute] = useState();
 
   useEffect(()=> {
     setInterval(()=> {
@@ -14,10 +15,25 @@ export default function RemindWatch() {
       const min = srcData.getMinutes();
       const sec = srcData.getSeconds();
 
-      const currentTime = hour + ':' + min + ':' + sec;
-      setTime(currentTime);
+      setMinute(min);
+      setTime([hour, ':', min, ':', sec]);
     }, 1000);
+
+    /*
+      1) Every time min changes
+      2) console.log() the alert message
+    */
+
+   
+
   }, []);
+
+   useEffect(()=> {
+      console.log('1 minute past');
+    }, [minute]);
+
+  
+  
     
 
 
