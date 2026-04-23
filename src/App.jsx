@@ -6,6 +6,7 @@ export default function RemindWatch() {
 
   const [time, setTime] = useState([]);
   const [minute, setMinute] = useState();
+  const [isOn, setIsOn] = useState(false);
 
   useEffect(()=> {
     setInterval(()=> {
@@ -35,6 +36,7 @@ export default function RemindWatch() {
  
 
    useEffect(()=> {
+    if(!isOn) return; 
       intervalPlay();
     }, [minute]);
 
@@ -50,7 +52,14 @@ export default function RemindWatch() {
     <div>
       <h1 className=''>{time}</h1>
       <input type="number" />
-      <button onClick={intervalPlay}>Start</button>
+
+      {
+        !isOn ? (
+          <button onClick={() => setIsOn(true)}>Switch On</button>
+        ) : (
+          <button onClick={() => setIsOn(false)}>Switch Off</button>
+        )
+      }
     </div>
     )
 }
