@@ -28,8 +28,14 @@ export default function RemindWatch() {
 
   }, []);
 
+   const intervalPlay = async () => {
+        const audio = new Audio("src/assets/beep.mp3");
+        await audio.play();
+      }
+ 
+
    useEffect(()=> {
-      console.log('1 minute past');
+      intervalPlay();
     }, [minute]);
 
   
@@ -41,6 +47,10 @@ export default function RemindWatch() {
   
 
   return(
-      <div>{time}</div>
+    <div>
+      <h1 className=''>{time}</h1>
+      <input type="number" />
+      <button onClick={intervalPlay}>Start</button>
+    </div>
     )
 }
