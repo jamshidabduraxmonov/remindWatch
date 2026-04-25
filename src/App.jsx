@@ -7,7 +7,7 @@ export default function RemindWatch() {
   const [time, setTime] = useState([]);
   const [minute, setMinute] = useState();
   const [isOn, setIsOn] = useState(false);
-  const [interVal, setInterVal] = useState(2);
+  const [interVal, setInterVal] = useState(0);
   const [countChange, setCountChange] = useState(0);
 
   useEffect(()=> {
@@ -47,10 +47,18 @@ export default function RemindWatch() {
       intervalPlay();
       setCountChange(0);
     }
-
+    console.log(interVal);
+    console.log(tempValue);
+    console.log(isOn);
     }, [minute]);
 
   
+    
+      
+
+
+
+
       /* New Interval Logic
         1) Everytime min changes add 1 to the countChange
         2) When countChange is equal to the interVal - Beeep!!!
@@ -67,7 +75,7 @@ export default function RemindWatch() {
   return(
     <div>
       <h1 className=''>{time}</h1>
-      <input type="number" />
+      <input className='border-1' value={interVal} onChange={(e) => {setInterVal(Number(e.target.value))}} disabled={isOn}  type="number" />
 
       {
         !isOn ? (
