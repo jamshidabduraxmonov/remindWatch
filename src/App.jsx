@@ -7,6 +7,8 @@ export default function RemindWatch() {
   const [time, setTime] = useState([]);
   const [minute, setMinute] = useState();
   const [isOn, setIsOn] = useState(false);
+  const [interVal, setInterVal] = useState(2);
+  const [countChange, setCountChange] = useState(0);
 
   useEffect(()=> {
     setInterval(()=> {
@@ -16,7 +18,7 @@ export default function RemindWatch() {
       const min = srcData.getMinutes();
       const sec = srcData.getSeconds();
 
-      setMinute(min);
+      setMinute(sec);
       setTime([hour, ':', min, ':', sec]);
     }, 1000);
 
@@ -37,11 +39,25 @@ export default function RemindWatch() {
 
    useEffect(()=> {
     if(!isOn) return; 
+    let tempValue = countChange;
+    tempValue++;
+    setCountChange(tempValue);
+
+    if(tempValue === interVal){
       intervalPlay();
+      setCountChange(0);
+    }
+
     }, [minute]);
 
   
-  
+      /* New Interval Logic
+        1) Everytime min changes add 1 to the countChange
+        2) When countChange is equal to the interVal - Beeep!!!
+        3) The moment 'beep' happens set the countChange back to 0
+        4) Synchronize the interVal state with the UI input
+    */
+
     
 
 
