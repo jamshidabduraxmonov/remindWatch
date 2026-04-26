@@ -18,7 +18,7 @@ export default function RemindWatch() {
       const min = srcData.getMinutes();
       const sec = srcData.getSeconds();
 
-      setMinute(sec);
+      setMinute(min);
       setTime([hour, ':', min, ':', sec]);
     }, 1000);
 
@@ -74,16 +74,21 @@ export default function RemindWatch() {
 
   return(
     <div>
-      <h1 className=''>{time}</h1>
-      <input className='border-1' value={interVal} onChange={(e) => {setInterVal(Number(e.target.value))}} disabled={isOn}  type="number" />
+      <h1 className="text-center py-8 text-3xl">RemidWatch</h1>
 
-      {
-        !isOn ? (
-          <button onClick={() => setIsOn(true)}>Switch On</button>
-        ) : (
-          <button onClick={() => setIsOn(false)}>Switch Off</button>
-        )
-      }
+      <div className="border-1 w-[70%] h-auto m-auto my-8 flex flex-col gap-8 p-4  ">
+        <h1 className='text-center py-2 text-emerald-400 text-3xl'>{time}</h1>
+        <input className='border-1 w-[30%] h-16 m-auto' value={interVal} onChange={(e) => {setInterVal(Number(e.target.value))}} disabled={isOn}  type="number" />
+
+        {
+          !isOn ? (
+            <button className="border-1 w-[30%] m-auto" onClick={() => setIsOn(true)}>Switch On</button>
+          ) : (
+            <button className="border-1 w-[30%] m-auto" onClick={() => setIsOn(false)}>Switch Off</button>
+          )
+        }
+      </div>
     </div>
+    
     )
 }
