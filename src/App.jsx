@@ -14,12 +14,16 @@ export default function RemindWatch() {
     setInterval(()=> {
       const srcData = new Date();
 
-      const hour = srcData.getHours();
-      const min = srcData.getMinutes();
-      const sec = srcData.getSeconds();
+      let hour = srcData.getHours();
+      let min = srcData.getMinutes();
+      let sec = srcData.getSeconds();
 
-      setMinute(min);
-      setTime([hour, ':', min, ':', sec]);
+      const formatHour = hour < 10 ? "0" + hour : hour;
+      const formatMin = min < 10 ? "0" + min : min;
+      const formatSec = sec < 10 ? "0" + sec : sec;
+
+      setMinute(sec);
+      setTime([formatHour, ':', formatMin, ':', formatSec]);
     }, 1000);
 
     /*
@@ -74,7 +78,7 @@ export default function RemindWatch() {
 
   return(
     <div>
-      <h1 className="text-center py-8 text-3xl">RemidWatch</h1>
+      <h1 className="text-center py-8 text-3xl">RemindWatch</h1>
 
       <div className="border-1 w-[70%] h-auto m-auto my-8 flex flex-col gap-8 p-4  ">
         <h1 className='text-center py-2 text-emerald-400 text-3xl'>{time}</h1>
