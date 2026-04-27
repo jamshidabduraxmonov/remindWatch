@@ -10,6 +10,9 @@ export default function RemindWatch() {
   const [interVal, setInterVal] = useState(0);
   const [countChange, setCountChange] = useState(0);
 
+  const [isWork, setIsWork] = useState(false);
+  const [isBreak, setIsBreak] = useState(false);
+
   useEffect(()=> {
     setInterval(()=> {
       const srcData = new Date();
@@ -22,7 +25,7 @@ export default function RemindWatch() {
       const formatMin = min < 10 ? "0" + min : min;
       const formatSec = sec < 10 ? "0" + sec : sec;
 
-      setMinute(sec);
+      setMinute(min);
       setTime([formatHour, ':', formatMin, ':', formatSec]);
     }, 1000);
 
@@ -40,20 +43,39 @@ export default function RemindWatch() {
         await audio.play();
       }
  
+    const interRun = (gap) => {
+      let tempValue = countChange;
+      tempValue++;
+      setCountChange(tempValue);
+
+      if(tempValue === gap){
+        intervalPlay();
+        setCountChange(0);
+      }
+    }
+      
 
    useEffect(()=> {
     if(!isOn) return; 
-    let tempValue = countChange;
-    tempValue++;
-    setCountChange(tempValue);
+    interRun(interVal);
+    
+    }, [minute]);
 
-    if(tempValue === interVal){
-      intervalPlay();
-      setCountChange(0);
-    }
-    console.log(interVal);
-    console.log(tempValue);
-    console.log(isOn);
+
+    // Pomodoro useEffect()
+    useEffect(() => {
+      if(isWork){
+        interRun(25);
+        setIsWork(false);
+        setIsBreak(true);
+      }
+
+      if(isBreak){
+        interRun(5);
+        setIsBreak(false);
+        setIsWork(true);
+      }
+
     }, [minute]);
 
   
@@ -70,6 +92,11 @@ export default function RemindWatch() {
         4) Synchronize the interVal state with the UI input
     */
 
+
+        /* Pomodoro Preset logic:
+         
+        
+        */
     
 
 
@@ -89,6 +116,18 @@ export default function RemindWatch() {
             <button className="border-1 w-[30%] m-auto" onClick={() => setIsOn(true)}>Switch On</button>
           ) : (
             <button className="border-1 w-[30%] m-auto" onClick={() => setIsOn(false)}>Switch Off</button>
+          )
+        }
+      </div>
+
+
+
+      <div>
+        {
+          (isWork || isBreak) ? (
+            <button className="border-1" onClick={() => (setIsWork(false) && setIsBreak(false))}>Pomodoro Off</button>
+          ) : (
+            <button className="border-1" onClick={()=> setIsWork(true)}>Pomodoro On</button>
           )
         }
       </div>
