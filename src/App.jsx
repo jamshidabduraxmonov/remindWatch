@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 
 
 
@@ -10,8 +10,18 @@ export default function RemindWatch() {
   const [interVal, setInterVal] = useState(0);
   const [countChange, setCountChange] = useState(0);
 
-  const [isWork, setIsWork] = useState(false);
-  const [isBreak, setIsBreak] = useState(false);
+  const [isPomodoro, setIsPomodoro] = useState(false);
+
+  const [isOptimal, setIsOptimal] = useState(false);
+  const [isDeep, setIsDeep] = useState(false);
+  const [isHyperDeep, setIsHyperDeep] = useState(false);
+
+  let workRef = useRef(true);
+
+
+ 
+
+
 
   useEffect(()=> {
     setInterval(()=> {
@@ -25,7 +35,7 @@ export default function RemindWatch() {
       const formatMin = min < 10 ? "0" + min : min;
       const formatSec = sec < 10 ? "0" + sec : sec;
 
-      setMinute(min);
+      setMinute(sec);
       setTime([formatHour, ':', formatMin, ':', formatSec]);
     }, 1000);
 
@@ -40,7 +50,8 @@ export default function RemindWatch() {
 
    const intervalPlay = async () => {
         const audio = new Audio("src/assets/beep.mp3");
-        await audio.play();
+        // await audio.play();
+        console.log('Well, Beeep...');
       }
  
     const interRun = (gap) => {
@@ -48,10 +59,13 @@ export default function RemindWatch() {
       tempValue++;
       setCountChange(tempValue);
 
-      if(tempValue === gap){
+      if(tempValue >= gap){
         intervalPlay();
         setCountChange(0);
+        workRef.current = !workRef.current;
       }
+
+      console.log('gap: ', gap, 'temp: ', tempValue);
     }
       
 
@@ -62,25 +76,72 @@ export default function RemindWatch() {
     }, [minute]);
 
 
-    // Pomodoro useEffect()
-    useEffect(() => {
-      if(isWork){
-        interRun(25);
-        setIsWork(false);
-        setIsBreak(true);
-      }
+    // // Pomodoro useEffect()
+    // useEffect(() => {
+    //   if(isOptimal){
+    //     setIsDeep(false);
+    //     setIsHyperDeep(false);
+    //     isWork && (interRun(25), setIsWork(false), setIsBreak(true));
+    //     isBreak && (interRun(5), setIsBreak(false), setIsWork(true));
+    //   }else if(isDeep) {
+    //     setIsOptimal(false);
+    //     setIsHyperDeep(false);
+    //     isWork && (interRun(50), setIsWork(false), setIsBreak(true));
+    //     isBreak && (interRun(10), setIsBreak(false), setIsWork(true));
+    //   }else if(isHyperDeep) {
+    //     setIsDeep(false);
+    //     setIsOptimal(false);
+    //     isWork && (interRun(90), setIsWork(false), setIsBreak(true));
+    //     isBreak && (interRun(15), setIsBreak(false), setIsWork(true));
+    //   }
+    
 
-      if(isBreak){
-        interRun(5);
-        setIsBreak(false);
-        setIsWork(true);
-      }
-
-    }, [minute]);
+    // }, [minute]);
 
   
+    /* New Bug-free Pomodoro feature logic
+        1) every single pomodoro mode has its own useEffect
+        2) Each of the modes acticated will deactivate the rest of the modes
+        3) No use 'setState()' for work/breaks, just inside variables
+    */
+    useEffect(() => {
+      if(isOptimal){
+        setIsDeep(false);
+        setIsHyperDeep(false);
+        
+        workRef.current ? (interRun(25)) : (interRun(5)); 
+        console.log("workRef: ", workRef.current );
+      }
+    }, [isOptimal, minute]); 
     
-      
+    
+    useEffect(() => {
+      if(isDeep){
+        setIsOptimal(false);
+        setIsHyperDeep(false);
+        
+        workRef.current ? (interRun(50)) : (interRun(10)); 
+        console.log("workRef: ", workRef.current );
+      }
+    }, [isDeep, minute]);
+
+
+
+    useEffect(() => {
+      if(isHyperDeep){
+        setIsOptimal(false);
+        setIsDeep(false);
+        
+        workRef.current ? (interRun(90)) : (interRun(15)); 
+        console.log("workRef: ", workRef.current );
+      }
+    }, [isHyperDeep, minute]);
+    
+    
+
+  
+
+
 
 
 
@@ -92,11 +153,6 @@ export default function RemindWatch() {
         4) Synchronize the interVal state with the UI input
     */
 
-
-        /* Pomodoro Preset logic:
-         
-        
-        */
     
 
 
@@ -106,6 +162,16 @@ export default function RemindWatch() {
   return(
     <div>
       <h1 className="text-center py-8 text-3xl">RemindWatch</h1>
+
+
+       <div>
+
+        <button className="border-1 rounded-sm" onClick={()=> setIsPomodoro(true)}>Pomodoro</button>
+        
+        
+      </div>
+
+
 
       <div className="border-1 w-[70%] h-auto m-auto my-8 flex flex-col gap-8 p-4  ">
         <h1 className='text-center py-2 text-emerald-400 text-3xl'>{time}</h1>
@@ -118,19 +184,20 @@ export default function RemindWatch() {
             <button className="border-1 w-[30%] m-auto" onClick={() => setIsOn(false)}>Switch Off</button>
           )
         }
+
       </div>
 
 
-
-      <div>
-        {
-          (isWork || isBreak) ? (
-            <button className="border-1" onClick={() => (setIsWork(false) && setIsBreak(false))}>Pomodoro Off</button>
-          ) : (
-            <button className="border-1" onClick={()=> setIsWork(true)}>Pomodoro On</button>
-          )
+        { isPomodoro && (
+          <div className="flex gap-8">
+            <button className="border-1 p-2" onClick={()=> setIsOptimal(true)}>Optimal Session</button>
+            <button className="border-1 p-2" onClick={()=> setIsDeep(true)}>Deep Session</button>
+            <button className="border-1 p-2" onClick={()=> setIsHyperDeep(true)}>Hyper Deep Session</button>
+          </div>
+          
+        )         
         }
-      </div>
+     
     </div>
     
     )
