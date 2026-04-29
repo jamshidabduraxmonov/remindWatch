@@ -139,7 +139,13 @@ export default function RemindWatch() {
     
     
 
-  
+    const runPomodoro = () => {
+      if(isOn){
+        alert("Please, stop the interval first!");
+        return;
+      }
+      setIsPomodoro(true);
+    }
 
 
 
@@ -166,7 +172,7 @@ export default function RemindWatch() {
 
        <div>
 
-        <button className="border-1 rounded-sm" onClick={()=> setIsPomodoro(true)}>Pomodoro</button>
+        <button className="border-1 rounded-sm" onClick={()=> runPomodoro()}>Pomodoro</button>
         
         
       </div>
@@ -179,7 +185,7 @@ export default function RemindWatch() {
 
         {
           !isOn ? (
-            <button className="border-1 w-[30%] m-auto" onClick={() => setIsOn(true)}>Switch On</button>
+            <button className="border-1 w-[30%] m-auto" onClick={() => (setIsOn(true))}>Switch On</button>
           ) : (
             <button className="border-1 w-[30%] m-auto" onClick={() => setIsOn(false)}>Switch Off</button>
           )
