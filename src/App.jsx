@@ -18,6 +18,8 @@ export default function RemindWatch() {
 
   let workRef = useRef(true);
 
+  const [isInterval, setIsInterval] = useState(false);
+
 
  
 
@@ -145,9 +147,13 @@ export default function RemindWatch() {
         return;
       }
       setIsPomodoro(true);
+      setIsInterval(false);
     }
 
-
+    const runInterval = () => {
+      setIsInterval(true);
+      setIsPomodoro(false);
+    }
 
 
 
@@ -172,14 +178,15 @@ export default function RemindWatch() {
 
        <div>
 
-        <button className="border-1 rounded-sm" onClick={()=> runPomodoro()}>Pomodoro</button>
+        <button className="border-1 rounded-sm" onClick={()=> runInterval()}>Interval</button>
+        <button className="border-1 rounded-sm" onClick={()=>  runPomodoro()}>Pomodoro</button>
         
         
       </div>
 
 
-
-      <div className="border-1 w-[70%] h-auto m-auto my-8 flex flex-col gap-8 p-4  ">
+      { isInterval && (
+        <div className="border-1 w-[70%] h-auto m-auto my-8 flex flex-col gap-8 p-4  ">
         <h1 className='text-center py-2 text-emerald-400 text-3xl'>{time}</h1>
         <input className='border-1 w-[30%] h-16 m-auto' value={interVal} name="quantity" min="0" onChange={(e) => {setInterVal(Math.abs(Number(e.target.value)))}} disabled={isOn}  type="number" />
 
@@ -191,7 +198,10 @@ export default function RemindWatch() {
           )
         }
 
-      </div>
+          </div>
+      )}
+
+      
 
 
         { isPomodoro && (
