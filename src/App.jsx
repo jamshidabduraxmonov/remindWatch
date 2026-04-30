@@ -181,7 +181,7 @@ export default function RemindWatch() {
 
       <div className="border-1 w-[70%] h-auto m-auto my-8 flex flex-col gap-8 p-4  ">
         <h1 className='text-center py-2 text-emerald-400 text-3xl'>{time}</h1>
-        <input className='border-1 w-[30%] h-16 m-auto' value={interVal} onChange={(e) => {setInterVal(Number(e.target.value))}} disabled={isOn}  type="number" />
+        <input className='border-1 w-[30%] h-16 m-auto' value={interVal} name="quantity" min="0" onChange={(e) => {setInterVal(Math.abs(Number(e.target.value)))}} disabled={isOn}  type="number" />
 
         {
           !isOn ? (
@@ -196,9 +196,9 @@ export default function RemindWatch() {
 
         { isPomodoro && (
           <div className="flex gap-8">
-            <button className="border-1 p-2" onClick={()=> setIsOptimal(true)}>Optimal Session</button>
-            <button className="border-1 p-2" onClick={()=> setIsDeep(true)}>Deep Session</button>
-            <button className="border-1 p-2" onClick={()=> setIsHyperDeep(true)}>Hyper Deep Session</button>
+            <button className="border-1 p-2" onClick={()=> (setIsOptimal(true), setCountChange(0))}>Optimal Session</button>
+            <button className="border-1 p-2" onClick={()=> (setIsDeep(true), setCountChange(0))}>Deep Session</button>
+            <button className="border-1 p-2" onClick={()=> (setIsHyperDeep(true), setCountChange(0))}>Hyper Deep Session</button>
           </div>
           
         )         
