@@ -6,6 +6,7 @@ export default function RemindWatch() {
 
   const [time, setTime] = useState([]);
   const [minute, setMinute] = useState();
+  const [hour, setHour] = useState();
   const [isOn, setIsOn] = useState(false);
   const [interVal, setInterVal] = useState(0);
   const [countChange, setCountChange] = useState(0);
@@ -21,6 +22,9 @@ export default function RemindWatch() {
   const [isInterval, setIsInterval] = useState(false);
 
   const [activeBtn, setActiveBtn] = useState("");
+
+  const [isAlarm, setIsAlarm] = useState(false);
+  const [wakeUp, setWakeUp] = useState({h: '12', m: '01'});
 
 
  
@@ -39,7 +43,8 @@ export default function RemindWatch() {
       const formatMin = min < 10 ? "0" + min : min;
       const formatSec = sec < 10 ? "0" + sec : sec;
 
-      setMinute(sec);
+      setMinute(min);
+      setHour(hour);
       setTime([formatHour, ':', formatMin, ':', formatSec]);
     }, 1000);
 
@@ -54,7 +59,7 @@ export default function RemindWatch() {
 
    const intervalPlay = async () => {
         const audio = new Audio("src/assets/beep.mp3");
-        // await audio.play();
+        await audio.play();
         console.log('Well, Beeep...');
       }
  
@@ -142,6 +147,14 @@ export default function RemindWatch() {
     }, [isHyperDeep, minute]);
     
     
+    useEffect(()=> {
+      if(!isAlarm) return;
+      if( (Number(wakeUp.h) === hour) && (Number(wakeUp.m) === minute) ) {
+        intervalPlay();
+      }
+    }, [minute])
+
+
 
     const runPomodoro = () => {
       if(isOn){
@@ -150,11 +163,19 @@ export default function RemindWatch() {
       }
       setIsPomodoro(true);
       setIsInterval(false);
+      setIsAlarm(false);
     }
 
     const runInterval = () => {
       setIsInterval(true);
       setIsPomodoro(false);
+      setIsAlarm(false);
+    }
+
+    const runAlarm = () => {
+      setIsAlarm(true);
+      setIsPomodoro(false);
+      setIsInterval(false);
     }
 
 
@@ -182,6 +203,8 @@ export default function RemindWatch() {
 
           <button className={`border-1 rounded-sm px-2 ${(activeBtn === "b1") ? 'bg-red-500' : 'bg-red-300'}`} onClick={()=> (runInterval(), setActiveBtn("b1"))} >Interval</button>
           <button className={`border-1 rounded-sm px-2 ${(activeBtn === "b2") ? 'bg-red-500' : 'bg-red-300'}`} onClick={()=>  (runPomodoro(), setActiveBtn("b2"))}>Pomodoro</button>
+          <button className={`border-1 rounded-sm px-2 ${(activeBtn === "b3") ? 'bg-red-500' : 'bg-red-300'}`} onClick={()=>  (runAlarm(), setActiveBtn("b3"))}>Alarm</button>
+
         
         </div>
 
@@ -189,7 +212,7 @@ export default function RemindWatch() {
       { isInterval && (
         <div className="border-1 w-[70%] h-auto m-auto my-8 flex flex-col gap-8 p-4  ">
         <h1 className='text-center py-2 text-emerald-400 text-3xl'>{time}</h1>
-        <input className='border-1 w-[30%] h-16 m-auto' value={interVal} name="quantity" min="0" onChange={(e) => {setInterVal(Math.abs(Number(e.target.value)))}} disabled={isOn}  type="number" />
+        <input className='border-1 w-[30%] h-16 m-auto text-center text-2xl focus:border-red-400' value={interVal} name="quantity" min="0" onChange={(e) => {setInterVal(Math.abs(Number(e.target.value)))}} disabled={isOn}  type="number" />
 
         {
           !isOn ? (
@@ -212,8 +235,18 @@ export default function RemindWatch() {
             <button className="border-1 p-2" onClick={()=> (setIsHyperDeep(true), setCountChange(0))}>Hyper Deep Session</button>
           </div>
           
-        )         
+        )}
+
+
+        { isAlarm && (
+          <div>
+
+          </div>
+        )
+
         }
+
+
      
     </div>
     
