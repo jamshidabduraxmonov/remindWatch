@@ -20,6 +20,8 @@ export default function RemindWatch() {
 
   const [isInterval, setIsInterval] = useState(false);
 
+  const [activeBtn, setActiveBtn] = useState("");
+
 
  
 
@@ -176,13 +178,12 @@ export default function RemindWatch() {
       <h1 className="text-center py-8 text-3xl">RemindWatch</h1>
 
 
-       <div>
+       <div className=" flex justify-evenly">
 
-        <button className="border-1 rounded-sm" onClick={()=> runInterval()}>Interval</button>
-        <button className="border-1 rounded-sm" onClick={()=>  runPomodoro()}>Pomodoro</button>
+          <button className={`border-1 rounded-sm px-2 ${(activeBtn === "b1") ? 'bg-red-500' : 'bg-red-300'}`} onClick={()=> (runInterval(), setActiveBtn("b1"))} >Interval</button>
+          <button className={`border-1 rounded-sm px-2 ${(activeBtn === "b2") ? 'bg-red-500' : 'bg-red-300'}`} onClick={()=>  (runPomodoro(), setActiveBtn("b2"))}>Pomodoro</button>
         
-        
-      </div>
+        </div>
 
 
       { isInterval && (
@@ -205,7 +206,7 @@ export default function RemindWatch() {
 
 
         { isPomodoro && (
-          <div className="flex gap-8">
+          <div className="flex gap-8 m-4">
             <button className="border-1 p-2" onClick={()=> (setIsOptimal(true), setCountChange(0))}>Optimal Session</button>
             <button className="border-1 p-2" onClick={()=> (setIsDeep(true), setCountChange(0))}>Deep Session</button>
             <button className="border-1 p-2" onClick={()=> (setIsHyperDeep(true), setCountChange(0))}>Hyper Deep Session</button>
