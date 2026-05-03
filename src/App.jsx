@@ -23,8 +23,10 @@ export default function RemindWatch() {
 
   const [activeBtn, setActiveBtn] = useState("");
 
+  const [isAlarmPage, setIsAlarmPage] = useState(false);
   const [isAlarm, setIsAlarm] = useState(false);
-  const [wakeUp, setWakeUp] = useState({h: '12', m: '01'});
+  const [wakeUpH, setWakeUpH] = useState();
+  const [wakeUpM, setWakeUpM] = useState();
 
 
  
@@ -149,9 +151,11 @@ export default function RemindWatch() {
     
     useEffect(()=> {
       if(!isAlarm) return;
-      if( (Number(wakeUp.h) === hour) && (Number(wakeUp.m) === minute) ) {
+      if( (Number(wakeUpH) === hour) && (Number(wakeUpM) === minute) ) {
         intervalPlay();
       }
+      console.log("isAlarm: ", isAlarm);
+      console.log("Next alarm: ", wakeUpH, ":", wakeUpM);
     }, [minute])
 
 
@@ -172,12 +176,13 @@ export default function RemindWatch() {
       setIsAlarm(false);
     }
 
-    const runAlarm = () => {
-      setIsAlarm(true);
-      setIsPomodoro(false);
-      setIsInterval(false);
+    const runAlarmPage = () => {
+      setIsAlarmPage(true);
+      console.log("Alarm page: ", isAlarmPage);
     }
 
+
+  
 
 
 
@@ -203,7 +208,7 @@ export default function RemindWatch() {
 
           <button className={`border-1 rounded-sm px-2 ${(activeBtn === "b1") ? 'bg-red-500' : 'bg-red-300'}`} onClick={()=> (runInterval(), setActiveBtn("b1"))} >Interval</button>
           <button className={`border-1 rounded-sm px-2 ${(activeBtn === "b2") ? 'bg-red-500' : 'bg-red-300'}`} onClick={()=>  (runPomodoro(), setActiveBtn("b2"))}>Pomodoro</button>
-          <button className={`border-1 rounded-sm px-2 ${(activeBtn === "b3") ? 'bg-red-500' : 'bg-red-300'}`} onClick={()=>  (runAlarm(), setActiveBtn("b3"))}>Alarm</button>
+          <button className={`border-1 rounded-sm px-2 ${(activeBtn === "b3") ? 'bg-red-500' : 'bg-red-300'}`} onClick={()=>  (runAlarmPage(), setActiveBtn("b3"))}>Alarm</button>
 
         
         </div>
@@ -238,9 +243,17 @@ export default function RemindWatch() {
         )}
 
 
-        { isAlarm && (
+        { isAlarmPage && (
           <div>
-
+              <input className="border-2" type="number" min="0" placeholder='hour' value={wakeUpH} onChange={(e)=> setWakeUpH(Number(e.target.value))} />
+              <input className="border-2" type="number" min="0" placeholder='min' value={wakeUpM} onChange={(e)=> setWakeUpM(Number(e.target.value))}/>
+              {
+                isAlarm ? (
+                  <button className="border-2" onClick={()=> setIsAlarm(false)}>Alarm On</button>
+                ) : (
+                  <button className="border-2" onClick={()=> setIsAlarm(true)}>Alarm Off </button>
+                )
+              }
           </div>
         )
 
