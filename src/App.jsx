@@ -223,17 +223,17 @@ export default function RemindWatch() {
 
 
        {/*ToDo: Drum Roll*/
-        /* <div className="border mx-auto w-[20%] h-18 flex flex-col items-center overflow-y-scroll scroll-smooth">
-          <div>0</div>
-          <div>1</div>
-          <div>2</div>
-          <div>3</div>
-          <div>4</div>
-          <div>5</div>
-          <div>6</div>
-          <div>7</div>
-          <div>8</div>
-        </div>  */
+         <div className="snap-y border mx-auto w-[20%] h-18 flex flex-col items-center overflow-y-scroll scroll-smooth">
+            <div className="snap-center">0</div>
+            <div className="snap-center">1</div>
+            <div className="snap-center">2</div>
+            <div className="snap-center">3</div>
+            <div className="snap-center">4</div>
+            <div className="snap-center">5</div>
+            <div className="snap-center">6</div>
+            <div className="snap-center">7</div>
+            <div className="snap-center">8</div>
+        </div>  
        } 
 
         {
