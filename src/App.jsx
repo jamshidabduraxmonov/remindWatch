@@ -167,17 +167,19 @@ export default function RemindWatch() {
       }
       setIsPomodoro(true);
       setIsInterval(false);
-      setIsAlarm(false);
+      setIsAlarmPage(false);
     }
 
     const runInterval = () => {
       setIsInterval(true);
       setIsPomodoro(false);
-      setIsAlarm(false);
+      setIsAlarmPage(false);
     }
 
     const runAlarmPage = () => {
       setIsAlarmPage(true);
+      setIsInterval(false);
+      setIsPomodoro(false);
       console.log("Alarm page: ", isAlarmPage);
     }
 
@@ -219,6 +221,21 @@ export default function RemindWatch() {
         <h1 className='text-center py-2 text-emerald-400 text-3xl'>{time}</h1>
         <input className='border-1 w-[30%] h-16 m-auto text-center text-2xl focus:border-red-400' value={interVal} name="quantity" min="0" onChange={(e) => {setInterVal(Math.abs(Number(e.target.value)))}} disabled={isOn}  type="number" />
 
+
+       {/*ToDo: Drum Roll*/
+        /* <div className="border mx-auto w-[20%] h-18 flex flex-col items-center overflow-y-scroll scroll-smooth">
+          <div>0</div>
+          <div>1</div>
+          <div>2</div>
+          <div>3</div>
+          <div>4</div>
+          <div>5</div>
+          <div>6</div>
+          <div>7</div>
+          <div>8</div>
+        </div>  */
+       } 
+
         {
           !isOn ? (
             <button className="border-1 w-[30%] m-auto" onClick={() => (setIsOn(true))}>Switch On</button>
@@ -245,15 +262,23 @@ export default function RemindWatch() {
 
         { isAlarmPage && (
           <div>
-              <input className="border-2" type="number" min="0" placeholder='hour' value={wakeUpH} onChange={(e)=> setWakeUpH(Number(e.target.value))} />
-              <input className="border-2" type="number" min="0" placeholder='min' value={wakeUpM} onChange={(e)=> setWakeUpM(Number(e.target.value))}/>
-              {
-                isAlarm ? (
-                  <button className="border-2" onClick={()=> setIsAlarm(false)}>Alarm On</button>
-                ) : (
-                  <button className="border-2" onClick={()=> setIsAlarm(true)}>Alarm Off </button>
-                )
-              }
+            <div className="flex flex-col w-[50%] items-center m-auto p-4 border mt-4 gap-2 rounded bg-gray-100">
+
+                <div className="border px-4 rounded">
+                  <p className="text-2xl text-emerald-500">{(!wakeUpH || !wakeUpM) ? ("00:00") : (wakeUpH + ":" + wakeUpM)}</p>
+                </div>
+
+                <input className="border-2" type="number" min="0" placeholder='hour' value={wakeUpH} onChange={(e)=> setWakeUpH(Number(e.target.value))} />
+                <input className="border-2" type="number" min="0" placeholder='min' value={wakeUpM} onChange={(e)=> setWakeUpM(Number(e.target.value))}/>
+                {
+                  isAlarm ? (
+                    <button className="border-2 p-1 rounded bg-emerald-500" onClick={()=> setIsAlarm(false)}>Alarm On</button>
+                  ) : (
+                    <button className="border-2 p-1 rounded bg-emerald-200" onClick={()=> setIsAlarm(true)}>Alarm Off </button>
+                  )
+                }
+            </div>
+             
           </div>
         )
 
