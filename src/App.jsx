@@ -185,7 +185,7 @@ export default function RemindWatch() {
 
 
   
-
+    
 
 
       /* New Interval Logic
@@ -223,16 +223,20 @@ export default function RemindWatch() {
 
 
        {/*ToDo: Drum Roll*/
-         <div className="snap-y border mx-auto w-[20%] h-18 flex flex-col items-center overflow-y-scroll scroll-smooth">
-            <div className="snap-center">0</div>
-            <div className="snap-center">1</div>
-            <div className="snap-center">2</div>
-            <div className="snap-center">3</div>
-            <div className="snap-center">4</div>
-            <div className="snap-center">5</div>
-            <div className="snap-center">6</div>
-            <div className="snap-center">7</div>
-            <div className="snap-center">8</div>
+        <div className=" snap-y border mx-auto w-[20%] h-18 flex flex-col items-center overflow-y-scroll scroll-smooth">
+          <div className="bg-gray-300 opacity-40 border w-[12%] h-4 absolute my-6"></div>
+            <ul className="border">
+              <li className="snap-center">0</li>
+              <li className="snap-center">1</li>
+              <li className="snap-center">2</li>
+              <li className="snap-center">3</li>
+              <li className="snap-center">4</li>
+              <li className="snap-center">5</li>
+              <li className="snap-center">6</li>
+              <li className="snap-center">7</li>
+              <li className="snap-center">8</li>
+            </ul>
+            
         </div>  
        } 
 
