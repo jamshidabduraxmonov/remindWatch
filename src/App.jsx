@@ -194,7 +194,7 @@ export default function RemindWatch() {
         setIsIntersect(entry.isIntersecting);
       })
 
-      console.log(isIntersect);
+      console.log(entries);
 
     }
 
@@ -209,12 +209,17 @@ export default function RemindWatch() {
       };
 
       const observer = new IntersectionObserver(handlePick, options);
-      observer.observe(value.current);
+      
+      let valArray = [...value.current.children];
+
+      valArray.forEach((val)=> {
+        observer.observe(val);
+      });
 
     }
 
-    console.log("isIntersect: ", isIntersect);
-
+  
+    console.log("Picker: ", );
     createObserver();
     }, []);
 
@@ -258,13 +263,13 @@ export default function RemindWatch() {
 
        {/*ToDo: Drum Roll*/
         <div className=" snap-y border mx-auto w-[20%] h-18 flex flex-col items-center overflow-y-scroll scroll-smooth" ref={picker}>
-          <div className="bg-gray-300 opacity-40 border w-[12%] h-4 absolute my-6.5"></div>
-            <ul className="border">
+          <div className="bg-gray-300 opacity-40 border w-[12%] h-4 absolute my-6.5" ></div>
+            <ul className="border" ref={value}>
               <li className="snap-center">0</li>
               <li className="snap-center">1</li>
               <li className="snap-center">2</li>
               <li className="snap-center">3</li>
-              <li className={`snap-center, ${isIntersect ? "bg-green-400" : "bg-red-400"}`} ref={value}>4</li>
+              <li className={`snap-center, ${isIntersect ? "bg-green-400" : "bg-red-400"}`} >4</li>
               <li className="snap-center">5</li>
               <li className="snap-center">6</li>
               <li className="snap-center">7</li>
