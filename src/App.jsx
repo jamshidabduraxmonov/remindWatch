@@ -28,6 +28,8 @@ export default function RemindWatch() {
   const [wakeUpH, setWakeUpH] = useState();
   const [wakeUpM, setWakeUpM] = useState();
 
+  const [isIntersect, setIsIntersect] = useState(false);
+
 
  
 
@@ -183,8 +185,40 @@ export default function RemindWatch() {
       console.log("Alarm page: ", isAlarmPage);
     }
 
+    const picker = useRef(null);
+    const value = useRef(null);
 
-  
+    const handlePick = (entries) => {
+      
+      entries.forEach(entry => {
+        setIsIntersect(entry.isIntersecting);
+      })
+
+      console.log(isIntersect);
+
+    }
+
+
+    useEffect(()=> {
+
+    const createObserver = () => {
+      const options = {
+        root: picker.current,
+        rootMargin: "-45% 0px -45% 0px",
+        threshold: 0.0,
+      };
+
+      const observer = new IntersectionObserver(handlePick, options);
+      observer.observe(value.current);
+
+    }
+
+    console.log("isIntersect: ", isIntersect);
+
+    createObserver();
+    }, []);
+
+    
     
 
 
@@ -216,21 +250,21 @@ export default function RemindWatch() {
         </div>
 
 
-      { isInterval && (
+      
         <div className="border-1 w-[70%] h-auto m-auto my-8 flex flex-col gap-8 p-4  ">
         <h1 className='text-center py-2 text-emerald-400 text-3xl'>{time}</h1>
         <input className='border-1 w-[30%] h-16 m-auto text-center text-2xl focus:border-red-400' value={interVal} name="quantity" min="0" onChange={(e) => {setInterVal(Math.abs(Number(e.target.value)))}} disabled={isOn}  type="number" />
 
 
        {/*ToDo: Drum Roll*/
-        <div className=" snap-y border mx-auto w-[20%] h-18 flex flex-col items-center overflow-y-scroll scroll-smooth">
-          <div className="bg-gray-300 opacity-40 border w-[12%] h-4 absolute my-6"></div>
+        <div className=" snap-y border mx-auto w-[20%] h-18 flex flex-col items-center overflow-y-scroll scroll-smooth" ref={picker}>
+          <div className="bg-gray-300 opacity-40 border w-[12%] h-4 absolute my-6.5"></div>
             <ul className="border">
               <li className="snap-center">0</li>
               <li className="snap-center">1</li>
               <li className="snap-center">2</li>
               <li className="snap-center">3</li>
-              <li className="snap-center">4</li>
+              <li className={`snap-center, ${isIntersect ? "bg-green-400" : "bg-red-400"}`} ref={value}>4</li>
               <li className="snap-center">5</li>
               <li className="snap-center">6</li>
               <li className="snap-center">7</li>
@@ -249,7 +283,7 @@ export default function RemindWatch() {
         }
 
           </div>
-      )}
+      
 
       
 
