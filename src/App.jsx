@@ -194,7 +194,6 @@ export default function RemindWatch() {
         setIsIntersect(entry.isIntersecting);
       })
 
-      console.log(entries);
 
     }
 
@@ -204,7 +203,7 @@ export default function RemindWatch() {
     const createObserver = () => {
       const options = {
         root: picker.current,
-        rootMargin: "-45% 0px -45% 0px",
+        rootMargin: "-20% 0px -20% 0px",
         threshold: 0.0,
       };
 
@@ -262,17 +261,17 @@ export default function RemindWatch() {
 
 
        {/*ToDo: Drum Roll*/
-        <div className=" snap-y border mx-auto w-[20%] h-18 flex flex-col items-center overflow-y-scroll scroll-smooth" ref={picker}>
-          <div className="bg-gray-300 opacity-40 border w-[12%] h-4 absolute my-6.5" ></div>
+        <div className=" snap-y border mx-auto w-[20%] h-18 flex flex-col items-center overflow-y-scroll scroll-smooth relative py-8" ref={picker}>
+          <div className="bg-gray-300 opacity-40 border w-[100%] h-[10%] absolute top-1/2 -translate-y-1/2 sticky" ></div>
             <ul className="border" ref={value}>
-              <li className="snap-center">0</li>
-              <li className="snap-center">1</li>
-              <li className="snap-center">2</li>
-              <li className="snap-center">3</li>
-              <li className={`snap-center, ${isIntersect ? "bg-green-400" : "bg-red-400"}`} >4</li>
-              <li className="snap-center">5</li>
-              <li className="snap-center">6</li>
-              <li className="snap-center">7</li>
+              <li className="snap-center border">0</li>
+              <li className="snap-center border">1</li>
+              <li className="snap-center border">2</li>
+              <li className="snap-center border">3</li>
+              <li className={`snap-center ${isIntersect ? "bg-green-400" : "bg-red-400"} border`} >4</li>
+              <li className="snap-center border">5</li>
+              <li className="snap-center border">6</li>
+              <li className="snap-center border">7</li>
               <li className="snap-center">8</li>
             </ul>
             
