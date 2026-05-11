@@ -265,22 +265,22 @@ export default function RemindWatch() {
       
         <div className="border-1 w-[70%] h-auto m-auto my-8 flex flex-col gap-8 p-4  ">
         <h1 className='text-center py-2 text-emerald-400 text-3xl'>{time}</h1>
-        <input className='border-1 w-[30%] h-16 m-auto text-center text-2xl focus:border-red-400' value={interVal} name="quantity" min="0" disabled={isOn}  type="number" />
+        
 
 
        {/*ToDo: Drum Roll*/
-        <div className=" snap-y border mx-auto w-[20%] h-18 flex flex-col items-center overflow-y-scroll scroll-smooth relative py-8" ref={picker}>
-          <div className="bg-gray-300 opacity-40 border w-[100%] h-[10%] absolute top-1/2 -translate-y-1/2 sticky" ></div>
-            <ul className="flex flex-col gap-2" ref={value}>
-              <li className="snap-center border rounded">0</li>
-              <li className="snap-center border rounded">1</li>
-              <li className="snap-center border rounded">2</li>
-              <li className="snap-center border rounded">3</li>
-              <li className={`snap-center ${isIntersect ? "bg-green-400" : "bg-red-400"} border rounded`} >4</li>
-              <li className="snap-center border rounded">5</li>
-              <li className="snap-center border rounded">6</li>
-              <li className="snap-center border rounded">7</li>
-              <li className="snap-center border rounded">8</li>
+        <div className="bg-stone-50 snap-y mx-auto w-[30%] h-36 flex flex-col items-center overflow-y-scroll scroll-smooth relative py-14" ref={picker}>
+          <div className="bg-gray-500 opacity-40 border w-[100%] h-[10%] absolute top-1/2 -translate-y-1/2 sticky" ></div>
+            <ul className="flex flex-col gap-4" ref={value}>
+              <li className={`snap-center rounded text-4xl ${interVal == 0 ? "scale-[1.3]" : "scale-[1]" }`}>0</li>
+              <li className={`snap-center rounded text-4xl ${interVal == 1 ? "scale-[1.3]" : "scale-[1]" }`}>1</li>
+              <li className={`snap-center rounded text-4xl ${interVal == 2 ? "scale-[1.3]" : "scale-[1]" }`}>2</li>
+              <li className={`snap-center rounded text-4xl ${interVal == 3 ? "scale-[1.3]" : "scale-[1]" }`}>3</li>
+              <li className={`snap-center ${isIntersect ? "bg-green-400" : "bg-red-400"} ${interVal == 4 ? "scale-[1.3]" : "scale-[1]" } rounded text-4xl`} >4</li>
+              <li className={`snap-center rounded text-4xl ${interVal == 5 ? "scale-[1.3]" : "scale-[1]" }`}>5</li>
+              <li className={`snap-center rounded text-4xl ${interVal == 6 ? "scale-[1.3]" : "scale-[1]" }`}>6</li>
+              <li className={`snap-center rounded text-4xl ${interVal == 7 ? "scale-[1.3]" : "scale-[1]" }`}>7</li>
+              <li className={`snap-center rounded text-4xl ${interVal == 8 ? "scale-[1.3]" : "scale-[1]" }`}>8</li>
             </ul>
             
         </div>  
