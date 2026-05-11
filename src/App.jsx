@@ -189,14 +189,16 @@ export default function RemindWatch() {
 
     const picker = useRef(null);
     const value = useRef(null);
+    const drumInput = useRef(null);
 
-    console.log("target: ", drumVal);
+    console.log("target: ", drumInput);
 
     const handlePick = (entries) => {
       
       entries.forEach(entry => {
         setIsIntersect(entry.isIntersecting);
-        setDrumVal(entry.target.textContent);
+        drumInput.current = entry.target.textContent;
+        setInterVal(Number(entry.target.textContent));
         console.log(entry.target);
       })
 
@@ -237,7 +239,7 @@ export default function RemindWatch() {
         2) When countChange is equal to the interVal - Beeep!!!
         3) The moment 'beep' happens set the countChange back to 0
         4) Synchronize the interVal state with the UI input
-    */
+      */
 
     
 
@@ -263,7 +265,7 @@ export default function RemindWatch() {
       
         <div className="border-1 w-[70%] h-auto m-auto my-8 flex flex-col gap-8 p-4  ">
         <h1 className='text-center py-2 text-emerald-400 text-3xl'>{time}</h1>
-        <input className='border-1 w-[30%] h-16 m-auto text-center text-2xl focus:border-red-400' value={interVal} name="quantity" min="0" onChange={(e) => {setInterVal(Math.abs(Number(e.target.value)))}} disabled={isOn}  type="number" />
+        <input className='border-1 w-[30%] h-16 m-auto text-center text-2xl focus:border-red-400' value={interVal} name="quantity" min="0" disabled={isOn}  type="number" />
 
 
        {/*ToDo: Drum Roll*/
