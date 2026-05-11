@@ -30,6 +30,8 @@ export default function RemindWatch() {
 
   const [isIntersect, setIsIntersect] = useState(false);
 
+  const [drumVal, setDrumVal] = useState();
+
 
  
 
@@ -188,10 +190,14 @@ export default function RemindWatch() {
     const picker = useRef(null);
     const value = useRef(null);
 
+    console.log("target: ", drumVal);
+
     const handlePick = (entries) => {
       
       entries.forEach(entry => {
         setIsIntersect(entry.isIntersecting);
+        setDrumVal(entry.target.textContent);
+        console.log(entry.target);
       })
 
 
@@ -203,8 +209,8 @@ export default function RemindWatch() {
     const createObserver = () => {
       const options = {
         root: picker.current,
-        rootMargin: "-20% 0px -20% 0px",
-        threshold: 0.0,
+        rootMargin: "-30% 0px -30% 0px",
+        threshold: 1.0,
       };
 
       const observer = new IntersectionObserver(handlePick, options);
@@ -263,16 +269,16 @@ export default function RemindWatch() {
        {/*ToDo: Drum Roll*/
         <div className=" snap-y border mx-auto w-[20%] h-18 flex flex-col items-center overflow-y-scroll scroll-smooth relative py-8" ref={picker}>
           <div className="bg-gray-300 opacity-40 border w-[100%] h-[10%] absolute top-1/2 -translate-y-1/2 sticky" ></div>
-            <ul className="border" ref={value}>
-              <li className="snap-center border">0</li>
-              <li className="snap-center border">1</li>
-              <li className="snap-center border">2</li>
-              <li className="snap-center border">3</li>
-              <li className={`snap-center ${isIntersect ? "bg-green-400" : "bg-red-400"} border`} >4</li>
-              <li className="snap-center border">5</li>
-              <li className="snap-center border">6</li>
-              <li className="snap-center border">7</li>
-              <li className="snap-center">8</li>
+            <ul className="flex flex-col gap-2" ref={value}>
+              <li className="snap-center border rounded">0</li>
+              <li className="snap-center border rounded">1</li>
+              <li className="snap-center border rounded">2</li>
+              <li className="snap-center border rounded">3</li>
+              <li className={`snap-center ${isIntersect ? "bg-green-400" : "bg-red-400"} border rounded`} >4</li>
+              <li className="snap-center border rounded">5</li>
+              <li className="snap-center border rounded">6</li>
+              <li className="snap-center border rounded">7</li>
+              <li className="snap-center border rounded">8</li>
             </ul>
             
         </div>  
